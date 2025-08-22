@@ -1,0 +1,771 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Sahayak Platform
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Poppins', sans-serif;
+    }
+    /* Scrollbar for nav if needed */
+    nav::-webkit-scrollbar {
+      height: 6px;
+    }
+    nav::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 100, 100, 0.3);
+      border-radius: 3px;
+    }
+  </style>
+ </head>
+ <body class="flex flex-col h-screen bg-gray-50">
+  <!-- Navbar Top -->
+  <nav class="flex items-center justify-between bg-red-700 text-white px-6 py-4 shadow-md sticky top-0 z-50 select-none">
+   <div class="flex items-center space-x-3">
+    <img alt="Sahayak platform logo, stylized letter S in white on red green background" class="w-10 h-10 rounded-full" height="40" src="https://storage.googleapis.com/a1aa/image/2dd2996b-fed6-49c2-189f-04015d242c63.jpg" width="40"/>
+    <span class="text-2xl font-semibold tracking-wide">
+     Sahayak
+    </span>
+   </div>
+   <ul class="flex space-x-8 text-lg font-medium">
+    <li>
+     <button class="nav-btn hover:text-red-300 focus:outline-none focus:text-red-300" data-page="home" type="button">
+      Home
+     </button>
+    </li>
+    <li>
+     <button class="nav-btn hover:text-red-300 focus:outline-none focus:text-red-300" data-page="features" type="button">
+      Features
+     </button>
+    </li>
+    <li>
+     <button class="nav-btn hover:text-red-300 focus:outline-none focus:text-red-300" data-page="request" type="button">
+      Request Form
+     </button>
+    </li>
+    <li>
+     <button class="nav-btn hover:text-red-300 focus:outline-none focus:text-red-300" data-page="status" type="button">
+      Status
+     </button>
+    </li>
+    <li>
+     <button class="nav-btn hover:text-red-300 focus:outline-none focus:text-red-300" data-page="profile" type="button">
+      My Profile
+     </button>
+    </li>
+   </ul>
+  </nav>
+  <!-- Main Content -->
+  <main class="flex-1 overflow-y-auto p-6">
+   <div id="content" class="max-w-7xl mx-auto">
+   </div>
+  </main>
+  <!-- Footer -->
+  <footer class="bg-red-800 text-white text-center py-4 select-none">
+   <p class="text-sm">
+    © 2024 Sahayak. All rights reserved.
+   </p>
+  </footer>
+  <script>
+   // Data for features schemes
+    const featuresData = [
+      {
+        name: "Accessible Education Scheme",
+        description:
+          "Government scheme providing free education resources and scholarships for disabled students.",
+        url: "https://www.education.gov.in/accessible-education",
+      },
+      {
+        name: "Disability Pension Scheme",
+        description:
+          "Monthly pension for persons with disabilities to support their livelihood.",
+        url: "https://www.socialjustice.nic.in/disability-pension",
+      },
+      {
+        name: "Assistive Devices Program",
+        description:
+          "Provision of assistive devices like wheelchairs, hearing aids, and prosthetics.",
+        url: "https://www.assistivedevices.gov.in",
+      },
+      {
+        name: "Skill Development for Disabled",
+        description:
+          "Training and skill development programs to enhance employability.",
+        url: "https://www.skilldevelopment.gov.in/disabled",
+      },
+      {
+        name: "Accessible Public Transport",
+        description:
+          "Subsidized and accessible public transport facilities for disabled individuals.",
+        url: "https://www.transport.gov.in/accessible-transport",
+      },
+      {
+        name: "Healthcare Support Scheme",
+        description:
+          "Free or subsidized healthcare services for persons with disabilities.",
+        url: "https://www.health.gov.in/disability-support",
+      },
+      {
+        name: "Employment Reservation Scheme",
+        description:
+          "Reservation of jobs in government sectors for disabled candidates.",
+        url: "https://www.employment.gov.in/reservation-disabled",
+      },
+      {
+        name: "Housing Assistance Scheme",
+        description:
+          "Financial assistance for building or modifying homes for accessibility.",
+        url: "https://www.housing.gov.in/disabled-housing",
+      },
+      {
+        name: "Legal Aid for Disabled",
+        description:
+          "Free legal aid and counseling services for disabled persons.",
+        url: "https://www.legalaid.gov.in/disabled",
+      },
+      {
+        name: "Sports and Recreation Scheme",
+        description:
+          "Support for disabled athletes and recreational activities.",
+        url: "https://www.sports.gov.in/disabled-sports",
+      },
+      {
+        name: "Technology Access Program",
+        description:
+          "Access to technology and internet facilities for disabled individuals.",
+        url: "https://www.techaccess.gov.in",
+      },
+      {
+        name: "Disability Certification Program",
+        description:
+          "Official certification process for disability recognition and benefits.",
+        url: "https://www.disabilitycert.gov.in",
+      },
+      {
+        name: "Emergency Support Scheme",
+        description:
+          "Immediate assistance and support during emergencies for disabled persons.",
+        url: "https://www.emergency.gov.in/disabled-support",
+      },
+      {
+        name: "Inclusive Education Program",
+        description:
+          "Programs promoting inclusive education in mainstream schools.",
+        url: "https://www.inclusiveeducation.gov.in",
+      },
+      {
+        name: "Awareness and Advocacy Scheme",
+        description:
+          "Campaigns and programs to raise awareness about disability rights.",
+        url: "https://www.awareness.gov.in/disability-rights",
+      },
+    ];
+
+    // Utility: Save and get data from localStorage
+    function saveRequests(requests) {
+      localStorage.setItem("sahayak_requests", JSON.stringify(requests));
+    }
+    function getRequests() {
+      const data = localStorage.getItem("sahayak_requests");
+      return data ? JSON.parse(data) : [];
+    }
+    function saveProfile(profile) {
+      localStorage.setItem("sahayak_profile", JSON.stringify(profile));
+    }
+    function getProfile() {
+      const data = localStorage.getItem("sahayak_profile");
+      return data ? JSON.parse(data) : {};
+    }
+
+    // Email sending simulation (since no backend)
+    function sendEmail(to, subject, body) {
+      // This is a simulation. In real app, use backend or email service.
+      alert(
+        `Email sent to ${to}:\n\nSubject: ${subject}\n\n${body}`
+      );
+    }
+
+   
+
+      function renderHome() {
+  const container = document.createElement("div");
+  container.className = "relative w-full h-[70vh] flex flex-col justify-center items-center text-center text-white rounded-lg overflow-hidden shadow-lg";
+
+  // Video container
+  const videoContainer = document.createElement("div");
+  videoContainer.className = "absolute inset-0 overflow-hidden -z-10 rounded-lg";
+
+  const video = document.createElement("video");
+  video.setAttribute("autoplay", "");
+  video.setAttribute("muted", "");
+  video.setAttribute("loop", "");
+  video.className = "w-full h-full object-cover brightness-60";
+
+  // Use a direct video file URL
+  const source = document.createElement("source");
+  source.src = "https://www.w3schools.com/howto/rain.mp4"; // Replace with your own .mp4/.webm if needed
+  source.type = "video/mp4";
+  video.appendChild(source);
+
+  videoContainer.appendChild(video);
+
+  // Overlay for better text readability
+  const overlay = document.createElement("div");
+  overlay.className = "absolute inset-0 bg-black opacity-40 z-0 rounded-lg";
+  container.appendChild(videoContainer);
+  container.appendChild(overlay);
+
+  // Overlay text container
+  const textContainer = document.createElement("div");
+  textContainer.className = "max-w-3xl px-6 relative z-10";
+
+  const heading = document.createElement("h1");
+  heading.className = "text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-lg";
+  heading.textContent = "Welcome to Sahayak";
+
+  const subheading = document.createElement("p");
+  subheading.className = "text-lg sm:text-xl md:text-2xl font-semibold mb-8 drop-shadow-md";
+  subheading.textContent =
+    "Empowering and supporting disabled individuals through community and government schemes.";
+
+  const ctaButton = document.createElement("button");
+  ctaButton.className =
+    "bg-red-600 hover:bg-red-800 transition-colors px-8 py-3 rounded-full text-lg font-semibold shadow-lg drop-shadow-lg";
+  ctaButton.textContent = "Explore Features";
+  ctaButton.addEventListener("click", () => {
+    loadPage("features");
+  });
+
+  textContainer.appendChild(heading);
+  textContainer.appendChild(subheading);
+  textContainer.appendChild(ctaButton);
+
+  container.appendChild(textContainer);
+
+  return container;
+}
+
+    // Render Features Page
+    function renderFeatures() {
+      const container = document.createElement("div");
+      container.className = "max-w-6xl mx-auto";
+
+      const title = document.createElement("h2");
+      title.className = "text-4xl font-bold mb-8 text-red-700 text-center";
+      title.textContent = "Schemes for Disabled People";
+
+      container.appendChild(title);
+
+      const grid = document.createElement("div");
+      grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8";
+
+      featuresData.forEach((scheme) => {
+        const card = document.createElement("div");
+        card.className =
+          "bg-white rounded-lg shadow-md p-6 flex flex-col justify-between hover:shadow-lg transition-shadow";
+
+        const name = document.createElement("h3");
+        name.className = "text-xl font-semibold mb-2 text-red-800";
+        name.textContent = scheme.name;
+
+        const desc = document.createElement("p");
+        desc.className = "text-gray-700 flex-grow";
+        desc.textContent = scheme.description;
+
+        const link = document.createElement("a");
+        link.href = scheme.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className =
+          "mt-4 inline-block text-red-600 hover:text-red-800 font-semibold transition-colors";
+        link.textContent = "Learn More";
+
+        card.appendChild(name);
+        card.appendChild(desc);
+        card.appendChild(link);
+
+        grid.appendChild(card);
+      });
+
+      container.appendChild(grid);
+
+      return container;
+    }
+
+    // Render Request Form Page
+    function renderRequestForm() {
+      const container = document.createElement("div");
+      container.className = "max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md";
+
+      const title = document.createElement("h2");
+      title.className = "text-3xl font-bold mb-6 text-red-700 text-center";
+      title.textContent = "Volunteer Request Form";
+
+      container.appendChild(title);
+
+      const form = document.createElement("form");
+      form.className = "space-y-6";
+
+      // Fields: Full Name, Email, Phone, Address, Disability Type, Description of Help Needed, Emergency Contact, Preferred Contact Method
+      const fields = [
+        {
+          label: "Full Name",
+          type: "text",
+          name: "fullName",
+          placeholder: "Enter your full name",
+          required: true,
+        },
+        {
+          label: "Email Address",
+          type: "email",
+          name: "email",
+          placeholder: "Enter your email",
+          required: true,
+        },
+        {
+          label: "Phone Number",
+          type: "tel",
+          name: "phone",
+          placeholder: "Enter your phone number",
+          required: true,
+        },
+        {
+          label: "Address",
+          type: "text",
+          name: "address",
+          placeholder: "Enter your address",
+          required: true,
+        },
+        {
+          label: "Type of Disability",
+          type: "text",
+          name: "disabilityType",
+          placeholder: "Specify your disability type",
+          required: true,
+        },
+        {
+          label: "Description of Help Needed",
+          type: "textarea",
+          name: "helpDescription",
+          placeholder: "Describe the help you need",
+          required: true,
+        },
+        {
+          label: "Emergency Contact Number",
+          type: "tel",
+          name: "emergencyContact",
+          placeholder: "Enter emergency contact number",
+          required: false,
+        },
+        {
+          label: "Preferred Contact Method",
+          type: "select",
+          name: "contactMethod",
+          options: ["Email", "Phone", "Either"],
+          required: true,
+        },
+      ];
+
+      fields.forEach((field) => {
+        const fieldWrapper = document.createElement("div");
+        fieldWrapper.className = "flex flex-col";
+
+        const label = document.createElement("label");
+        label.className = "mb-1 font-semibold text-gray-700";
+        label.htmlFor = field.name;
+        label.textContent = field.label;
+
+        let input;
+        if (field.type === "textarea") {
+          input = document.createElement("textarea");
+          input.rows = 4;
+          input.placeholder = field.placeholder;
+          input.className =
+            "border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-red-500 resize-none";
+          input.name = field.name;
+          input.id = field.name;
+          if (field.required) input.required = true;
+        } else if (field.type === "select") {
+          input = document.createElement("select");
+          input.className =
+            "border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-red-500";
+          input.name = field.name;
+          input.id = field.name;
+          if (field.required) input.required = true;
+
+          field.options.forEach((opt) => {
+            const option = document.createElement("option");
+            option.value = opt;
+            option.textContent = opt;
+            input.appendChild(option);
+          });
+        } else {
+          input = document.createElement("input");
+          input.type = field.type;
+          input.placeholder = field.placeholder;
+          input.className =
+            "border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-red-500";
+          input.name = field.name;
+          input.id = field.name;
+          if (field.required) input.required = true;
+        }
+
+        fieldWrapper.appendChild(label);
+        fieldWrapper.appendChild(input);
+        form.appendChild(fieldWrapper);
+      });
+
+      const submitBtn = document.createElement("button");
+      submitBtn.type = "submit";
+      submitBtn.className =
+        "w-full bg-red-600 hover:bg-red-800 text-white font-semibold py-3 rounded-md transition-colors";
+      submitBtn.textContent = "Submit Request";
+
+      form.appendChild(submitBtn);
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const requestObj = {
+          id: Date.now(),
+          fullName: formData.get("fullName").trim(),
+          email: formData.get("email").trim(),
+          phone: formData.get("phone").trim(),
+          address: formData.get("address").trim(),
+          disabilityType: formData.get("disabilityType").trim(),
+          helpDescription: formData.get("helpDescription").trim(),
+          emergencyContact: formData.get("emergencyContact").trim(),
+          contactMethod: formData.get("contactMethod"),
+          status: "Pending",
+          submittedAt: new Date().toISOString(),
+        };
+
+        // Save to localStorage
+        const requests = getRequests();
+        requests.push(requestObj);
+        saveRequests(requests);
+
+        // Send email simulation
+        sendEmail(
+          requestObj.email,
+          "Sahayak Request Submission Confirmation",
+          `Dear ${requestObj.fullName},
+
+Your volunteer request has been successfully submitted. Please wait for a few days for approval.
+
+In case of any emergency, please contact us immediately.
+
+Thank you for your support.
+
+Best regards,
+Sahayak Team`
+        );
+
+        alert(
+          "Your request has been submitted successfully! You will receive a confirmation email shortly."
+        );
+
+        form.reset();
+        loadPage("status");
+      });
+
+      container.appendChild(form);
+
+      return container;
+    }
+
+    // Render Status Page
+    function renderStatus() {
+      const container = document.createElement("div");
+      container.className = "max-w-5xl mx-auto";
+
+      const title = document.createElement("h2");
+      title.className = "text-3xl font-bold mb-6 text-red-700 text-center";
+      title.textContent = "Your Requests Status";
+
+      container.appendChild(title);
+
+      const requests = getRequests();
+
+      if (requests.length === 0) {
+        const noData = document.createElement("p");
+        noData.className = "text-center text-gray-600 mt-12 text-lg";
+        noData.textContent =
+          "No requests found. Please submit a request from the Request Form page.";
+        container.appendChild(noData);
+        return container;
+      }
+
+      const tableWrapper = document.createElement("div");
+      tableWrapper.className = "overflow-x-auto";
+
+      const table = document.createElement("table");
+      table.className = "min-w-full border border-gray-300 rounded-md";
+
+      const thead = document.createElement("thead");
+      thead.className = "bg-red-100";
+
+      const headerRow = document.createElement("tr");
+      [
+        "Request ID",
+        "Full Name",
+        "Email",
+        "Phone",
+        "Disability Type",
+        "Status",
+        "Submitted At",
+      ].forEach((header) => {
+        const th = document.createElement("th");
+        th.className =
+          "text-left px-4 py-3 border-b border-gray-300 font-semibold text-red-700";
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+
+      requests.forEach((req) => {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-red-50";
+
+        const idTd = document.createElement("td");
+        idTd.className = "px-4 py-3 border-b border-gray-300 text-sm font-mono";
+        idTd.textContent = req.id;
+
+        const nameTd = document.createElement("td");
+        nameTd.className = "px-4 py-3 border-b border-gray-300";
+        nameTd.textContent = req.fullName;
+
+        const emailTd = document.createElement("td");
+        emailTd.className = "px-4 py-3 border-b border-gray-300";
+        emailTd.textContent = req.email;
+
+        const phoneTd = document.createElement("td");
+        phoneTd.className = "px-4 py-3 border-b border-gray-300";
+        phoneTd.textContent = req.phone;
+
+        const disabilityTd = document.createElement("td");
+        disabilityTd.className = "px-4 py-3 border-b border-gray-300";
+        disabilityTd.textContent = req.disabilityType;
+
+        const statusTd = document.createElement("td");
+        statusTd.className = `px-4 py-3 border-b border-gray-300 font-semibold ${
+          req.status === "Approved"
+            ? "text-green-600"
+            : req.status === "Rejected"
+            ? "text-red-600"
+            : "text-yellow-600"
+        }`;
+        statusTd.textContent = req.status;
+
+        const dateTd = document.createElement("td");
+        dateTd.className = "px-4 py-3 border-b border-gray-300 text-sm";
+        const date = new Date(req.submittedAt);
+        dateTd.textContent = date.toLocaleString();
+
+        tr.appendChild(idTd);
+        tr.appendChild(nameTd);
+        tr.appendChild(emailTd);
+        tr.appendChild(phoneTd);
+        tr.appendChild(disabilityTd);
+        tr.appendChild(statusTd);
+        tr.appendChild(dateTd);
+
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+      tableWrapper.appendChild(table);
+      container.appendChild(tableWrapper);
+
+      return container;
+    }
+
+    // Render My Profile Page
+    function renderProfile() {
+      const container = document.createElement("div");
+      container.className = "max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md";
+
+      const title = document.createElement("h2");
+      title.className = "text-3xl font-bold mb-6 text-red-700 text-center";
+      title.textContent = "My Profile";
+
+      container.appendChild(title);
+
+      const profile = getProfile();
+
+      const form = document.createElement("form");
+      form.className = "space-y-6";
+
+      // Fields: Full Name, Email, Phone, Address, Disability Type, Emergency Contact
+      const fields = [
+        {
+          label: "Full Name",
+          type: "text",
+          name: "fullName",
+          placeholder: "Enter your full name",
+          required: true,
+          value: profile.fullName || "",
+        },
+        {
+          label: "Email Address",
+          type: "email",
+          name: "email",
+          placeholder: "Enter your email",
+          required: true,
+          value: profile.email || "",
+        },
+        {
+          label: "Phone Number",
+          type: "tel",
+          name: "phone",
+          placeholder: "Enter your phone number",
+          required: true,
+          value: profile.phone || "",
+        },
+        {
+          label: "Address",
+          type: "text",
+          name: "address",
+          placeholder: "Enter your address",
+          required: true,
+          value: profile.address || "",
+        },
+        {
+          label: "Type of Disability",
+          type: "text",
+          name: "disabilityType",
+          placeholder: "Specify your disability type",
+          required: true,
+          value: profile.disabilityType || "",
+        },
+        {
+          label: "Emergency Contact Number",
+          type: "tel",
+          name: "emergencyContact",
+          placeholder: "Enter emergency contact number",
+          required: false,
+          value: profile.emergencyContact || "",
+        },
+      ];
+
+      fields.forEach((field) => {
+        const fieldWrapper = document.createElement("div");
+        fieldWrapper.className = "flex flex-col";
+
+        const label = document.createElement("label");
+        label.className = "mb-1 font-semibold text-gray-700";
+        label.htmlFor = field.name;
+        label.textContent = field.label;
+
+        const input = document.createElement("input");
+        input.type = field.type;
+        input.placeholder = field.placeholder;
+        input.className =
+          "border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-red-500";
+        input.name = field.name;
+        input.id = field.name;
+        if (field.required) input.required = true;
+        input.value = field.value;
+
+        fieldWrapper.appendChild(label);
+        fieldWrapper.appendChild(input);
+        form.appendChild(fieldWrapper);
+      });
+
+      const submitBtn = document.createElement("button");
+      submitBtn.type = "submit";
+      submitBtn.className =
+        "w-full bg-red-600 hover:bg-red-800 text-white font-semibold py-3 rounded-md transition-colors";
+      submitBtn.textContent = "Update Profile";
+
+      form.appendChild(submitBtn);
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const updatedProfile = {
+          fullName: formData.get("fullName").trim(),
+          email: formData.get("email").trim(),
+          phone: formData.get("phone").trim(),
+          address: formData.get("address").trim(),
+          disabilityType: formData.get("disabilityType").trim(),
+          emergencyContact: formData.get("emergencyContact").trim(),
+        };
+
+        saveProfile(updatedProfile);
+
+        alert("Profile updated successfully!");
+      });
+
+      container.appendChild(form);
+
+      return container;
+    }
+
+    // Load page content based on page name
+    function loadPage(page) {
+      const content = document.getElementById("content");
+      content.innerHTML = "";
+      let pageContent;
+
+      switch (page) {
+        case "home":
+          pageContent = renderHome();
+          break;
+        case "features":
+          pageContent = renderFeatures();
+          break;
+        case "request":
+          pageContent = renderRequestForm();
+          break;
+        case "status":
+          pageContent = renderStatus();
+          break;
+        case "profile":
+          pageContent = renderProfile();
+          break;
+        default:
+          pageContent = renderHome();
+      }
+
+      content.appendChild(pageContent);
+      highlightActiveNav(page);
+    }
+
+    // Highlight active nav button
+    function highlightActiveNav(page) {
+      const buttons = document.querySelectorAll("nav button.nav-btn");
+      buttons.forEach((btn) => {
+        if (btn.getAttribute("data-page") === page) {
+          btn.classList.add("text-red-300", "font-extrabold");
+          btn.classList.remove("hover:text-red-300");
+        } else {
+          btn.classList.remove("text-red-300", "font-extrabold");
+          btn.classList.add("hover:text-red-300");
+        }
+      });
+    }
+
+    // Attach nav button listeners
+    document.querySelectorAll("nav button.nav-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const page = btn.getAttribute("data-page");
+        loadPage(page);
+      });
+    });
+
+    // Initial load
+    loadPage("home");
+  </script>
+ </body>
+</html>
